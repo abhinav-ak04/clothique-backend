@@ -8,7 +8,7 @@ import cartData from './carts.json' assert { type: 'json' };
 const start = async () => {
     try {
         await connectDB(process.env.MONGODB_URL);
-        await Cart.deleteMany(); // Optional: clear existing
+        await Cart.deleteMany(); // Clear existing
         await Cart.insertMany(cartData);
         console.log('✅ Cart data seeded successfully');
         process.exit(0);
