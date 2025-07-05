@@ -4,14 +4,20 @@ dotenv.config();
 import express from 'express';
 import connectDB from './db/connect.js';
 
+import productRoutes from './routes/products.js';
+
 const app = express(); // Creating an instance of express
 const PORT = process.env.PORT || 8000; // Setting the port to listen on
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
     // Defining the root route
     // This route will respond with a welcome message when accessed
     res.send('Hi, Welcome to the world of Node.js!');
 });
+
+app.use('/api/products', productRoutes);
 
 const start = async () => {
     try {
