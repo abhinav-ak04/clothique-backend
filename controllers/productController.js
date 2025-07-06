@@ -6,7 +6,31 @@ export const searchProducts = async (req, res) => {
 
     const query = {};
 
-    if (q) query.$text = { $search: q };
+    if (q) {
+      const words = q.trim().split(/\s+/);
+
+      // Try text index if search is long enough
+      if (words.length > 1 || q.length > 2) {
+        query.$text = { $search: q };
+      } else {
+        // Fallback regex search for partial match
+        const regex = new RegExp(q, 'i');
+        query.$or = [
+          { brand: regex },
+          { desc: regex },
+          { individualCategory: regex },
+          { mainCategory: regex },
+          { subCategory: regex },
+          { gender: regex },
+          { details: regex },
+          { materialAndCare: regex },
+          { sizeAndFit: regex },
+          { color: regex },
+          { 'specs.prop': regex },
+          { 'specs.value': regex },
+        ];
+      }
+    }
 
     if (type) query.gender = type;
 
