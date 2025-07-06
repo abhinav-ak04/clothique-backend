@@ -2,7 +2,7 @@ import Cart from '../models/Cart.js';
 import { StatusCodes } from '../utils/status-codes.js';
 
 export const getCartItems = async (req, res) => {
-  const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
+  const { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
     const { userId } = req.params;
@@ -14,7 +14,9 @@ export const getCartItems = async (req, res) => {
     const cart = await Cart.findOne({ user: userId }).populate('items.product');
 
     if (!cart) {
-      return res.status(NOT_FOUND).json({ message: 'Cart is empty' });
+      return res
+        .status(OK)
+        .json({ message: 'Cart is empty', items: [], nbHits: 0 });
     }
 
     res.status(OK).json({

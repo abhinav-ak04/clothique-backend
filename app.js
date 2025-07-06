@@ -6,9 +6,10 @@ import connectDB from './db/connect.js';
 
 import productRoutes from './routes/products.js';
 import cartRoutes from './routes/carts.js';
+import wishlistRoutes from './routes/wishlists.js';
 
-const app = express(); // Creating an instance of express
-const PORT = process.env.PORT || 8000; // Setting the port to listen on
+const app = express();
+const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 const start = async () => {
   try {
