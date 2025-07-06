@@ -1,6 +1,9 @@
 import Product from '../models/Product.js';
+import { StatusCodes } from '../utils/status-codes.js';
 
 export const searchProducts = async (req, res) => {
+  const { OK, INTERNAL_SERVER_ERROR } = StatusCodes;
+
   try {
     const { q, type, brand, color, categories, discount, sortBy } = req.query;
 
@@ -98,22 +101,29 @@ export const searchProducts = async (req, res) => {
     }
 
     const products = await Product.find(query).sort(sortQuery);
-    res.json({ products, nbHits: products.length });
+    res.status(OK).json({ products, nbHits: products.length });
   } catch (error) {
-    console.error('❌ Error fetching products:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Error fetching products:', error);
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal server error', error: error.message });
   }
 };
 
 export const getProductById = async (req, res) => {
+  const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
+
   try {
     const { productId } = req.params;
     const product = await Product.findOne({ productId: +productId });
 
-    if (!product) res.status(404).json({ message: 'Product not found' });
-    res.status(200).json({ product });
+    if (!product) res.status(NOT_FOUND).json({ message: 'Product not found' });
+
+    res.status(OK).json({ product });
   } catch (error) {
-    console.error('❌ Error fetching product by ID:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Error fetching product by ID:', error);
+    res
+      .status(INTERNAL_SERVER_ERROR)
+      .json({ message: 'Internal server error' });
   }
 };
