@@ -165,7 +165,7 @@ export const setDefaultAddress = async (req, res) => {
       .status(OK)
       .json({ message: 'Address set as default successfully', address });
   } catch (error) {
-    console.error('Error occured while fetching the addresses', error);
+    console.error('Error occured while setting default address', error);
     return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal Server Error', error: error.message });
@@ -210,7 +210,7 @@ export const updateAddressDetails = async (req, res) => {
       .status(OK)
       .json({ message: 'Address details updated successfully', address });
   } catch (error) {
-    console.error('Error occured while fetching the addresses', error);
+    console.error('Error occured while updating the address', error);
     return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal Server Error', error: error.message });
@@ -233,7 +233,7 @@ export const removeAddress = async (req, res) => {
       .status(OK)
       .json({ message: 'Address removed successfully', deletedAddress });
   } catch (error) {
-    console.error('Error occured while fetching the addresses', error);
+    console.error('Error occured while removing the addresses', error);
     return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal Server Error', error: error.message });
