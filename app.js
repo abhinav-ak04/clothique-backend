@@ -4,11 +4,12 @@ dotenv.config();
 import express from 'express';
 import connectDB from './db/connect.js';
 
-import productRoutes from './routes/products.js';
-import cartRoutes from './routes/carts.js';
-import wishlistRoutes from './routes/wishlists.js';
-import orderRoutes from './routes/orders.js';
 import addressRoutes from './routes/addresses.js';
+import cartRoutes from './routes/carts.js';
+import orderRoutes from './routes/orders.js';
+import productRoutes from './routes/products.js';
+import userRoutes from './routes/users.js';
+import wishlistRoutes from './routes/wishlists.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -28,6 +29,8 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/orders', orderRoutes);
 
 app.use('/api/addresses', addressRoutes);
+
+app.use('/api/user', userRoutes);
 
 const start = async () => {
   try {

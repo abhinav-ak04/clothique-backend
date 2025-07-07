@@ -5,6 +5,17 @@ export const getUserData = async (req, res) => {
   const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(NOT_FOUND).json({ message: 'User not found' });
+    }
+
+    return res
+      .status(OK)
+      .json({ message: 'User data retrieved successfully', user });
   } catch (error) {
     console.error('Error retrieving user data', error);
     res
@@ -17,6 +28,47 @@ export const updateUserData = async (req, res) => {
   const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
+    const { userId } = req.params;
+    const { name, mobileNo, email, gender, dob, location, alternateMobileNo } =
+      req.body;
+
+    if (!userId) {
+      return res
+        .status(BAD_REQUEST)
+        .json({ message: 'User ID is required in the URL params' });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(NOT_FOUND)
+        .json({ message: 'User not found with the given ID' });
+    }
+
+    if (name) user.name = name;
+    if (mobileNo) user.mobileNo = mobileNo;
+    if (email) user.email = email;
+    if (gender) user.gender = gender;
+    if (location) user.location = location;
+    if (alternateMobileNo) user.alternateMobileNo = alternateMobileNo;
+
+    if (dob) {
+      const parsedDate = new Date(dob);
+      if (isNaN(parsedDate)) {
+        return res
+          .status(BAD_REQUEST)
+          .json({ message: 'Invalid date format for dob. Use yyyy-mm-dd' });
+      }
+      user.dob = parsedDate;
+    }
+
+    await user.save();
+
+    return res.status(OK).json({
+      message: 'User details updated successfully',
+      user,
+    });
   } catch (error) {
     console.error('Error updating user data', error);
     res
