@@ -8,6 +8,7 @@ import productRoutes from './routes/products.js';
 import cartRoutes from './routes/carts.js';
 import wishlistRoutes from './routes/wishlists.js';
 import orderRoutes from './routes/orders.js';
+import addressRoutes from './routes/addresses.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -25,6 +26,8 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 
 app.use('/api/orders', orderRoutes);
+
+app.use('/api/addresses', addressRoutes);
 
 const start = async () => {
   try {
