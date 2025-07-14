@@ -1,0 +1,26 @@
+[
+    {
+        "user": "685d2f0bd3ba8ba422ac627e",
+        "name": "Abhinav Kumar",
+        "mobileNo": "8697023711",
+        "pincode": "560001",
+        "addressLine": "H.No 42, MG Road",
+        "locality": "Near Central Mall",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "addressType": "Home",
+        "isDefault": true
+    },
+    {
+        "user": "685d2f0bd3ba8ba422ac6280",
+        "name": "Kunal Singh",
+        "mobileNo": "8697023711",
+        "pincode": "110001",
+        "addressLine": "Flat 4B, Tower 3",
+        "locality": "Connaught Place",
+        "city": "New Delhi",
+        "state": "Delhi",
+        "addressType": "Work",
+        "isDefault": false
+    }
+]

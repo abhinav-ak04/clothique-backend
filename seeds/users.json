@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Abhinav Kumar",
+        "mobileNo": "8697023711",
+        "email": "abhinav@example.com",
+        "gender": "M",
+        "dob": "2002-01-01T00:00:00Z",
+        "location": "Bhubaneswar",
+        "alternateMobileNo": "7376088919"
+    },
+    {
+        "name": "Sonali Verma",
+        "mobileNo": "9123456789",
+        "email": "sonali@example.com",
+        "gender": "F",
+        "dob": "1998-05-15T00:00:00Z",
+        "location": "Delhi",
+        "alternateMobileNo": "8000000000"
+    },
+    {
+        "name": "Kunal Singg",
+        "mobileNo": "9123985126",
+        "email": "kunal@example.com",
+        "gender": "M",
+        "dob": "2001-08-25T00:00:00Z",
+        "location": "Chennai",
+        "alternateMobileNo": "8003410000"
+    }
+]
