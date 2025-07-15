@@ -18,10 +18,24 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 
-// ✅ Simplified CORS: allow all origins (for now)
-app.use(cors({ origin: '*' }));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://clothique-frontend-fapy-j14kpzndf.vercel.app/',
+];
 
-// Optional: handle preflight requests (especially useful for DELETE/PUT/POST)
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // only if needed
+  })
+);
+
 app.options('*', cors());
 
 app.get('/', (req, res) => {
