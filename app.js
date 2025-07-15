@@ -18,45 +18,28 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+// ✅ Simplified CORS: allow all origins (for now)
+app.use(cors({ origin: '*' }));
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  })
-);
+// Optional: handle preflight requests (especially useful for DELETE/PUT/POST)
+app.options('*', cors());
 
 app.get('/', (req, res) => {
   res.send('Hi, Welcome to the world of Node.js!');
 });
 
 app.use('/api/products', productRoutes);
-
 app.use('/api/cart', cartRoutes);
-
 app.use('/api/wishlist', wishlistRoutes);
-
 app.use('/api/orders', orderRoutes);
-
 app.use('/api/addresses', addressRoutes);
-
 app.use('/api/user', userRoutes);
 
 const start = async () => {
   try {
-    // Connecting to the database using the connection string from the environment variables
-    // The connection string should be defined in a .env file in the root directory
-    await connectDB(process.env.MONGODB_URL); // Connect to the database
+    await connectDB(process.env.MONGODB_URL);
     console.log('✅ Connected to MongoDB');
 
-    // Start the server and listen on the specified port
     app.listen(PORT, () => {
       console.log(`🌐 Server is running on http://localhost:${PORT}`);
     });
@@ -64,4 +47,5 @@ const start = async () => {
     console.log('❌ Error starting server:', error);
   }
 };
+
 start();
