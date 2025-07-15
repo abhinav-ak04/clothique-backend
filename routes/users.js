@@ -4,8 +4,8 @@ import { getUserData, updateUserData } from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.get('/:userId', getUserData);
+router.get('/get/:userId', getUserData);
 
-router.patch('/:userId', updateUserData);
+router.patch('/update/:userId', updateUserData);
 
 export default router;

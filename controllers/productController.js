@@ -77,6 +77,7 @@ export const searchProducts = async (req, res) => {
         break;
 
       case 'discount':
+        ``;
         sortQuery = {
           $expr: {
             $subtract: ['$originalPrice', '$discountPrice'],
