@@ -17,9 +17,18 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
