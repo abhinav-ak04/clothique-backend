@@ -21,11 +21,11 @@ router.get('/', async (req, res) =>
 router.get('/user/:userId', getAllAddresses);
 router.get('/:addressId', getAddressById);
 
-router.post('/', addAddress);
+router.post('/add', addAddress);
 
-router.patch('/:addressId', updateAddressDetails);
+router.patch('/update/:addressId', updateAddressDetails);
 router.patch('/:addressId/set-default', setDefaultAddress);
 
-router.delete('/:addressId', removeAddress);
+router.delete('/remove/:addressId', removeAddress);
 
 export default router;
