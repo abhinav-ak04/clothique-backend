@@ -64,13 +64,11 @@ export const addToWishlist = async (req, res) => {
 
       if (existingItem) {
         await wishlist.populate('items.product');
-        return res
-          .status(OK)
-          .json({
-            message: 'Item already exists in the wishlist',
-            wishlist,
-            nbHits: wishlist.items.length,
-          });
+        return res.status(OK).json({
+          message: 'Item already exists in the wishlist',
+          wishlist,
+          nbHits: wishlist.items.length,
+        });
       }
 
       wishlist.items.push({ product: productId, addedAt: Date.now() });
@@ -147,6 +145,7 @@ export const isInWishlist = async (req, res) => {
 
   try {
     const { userId, productId } = req.query;
+    console.log(req.user);
 
     if (!userId || !productId) {
       return res.status(BAD_REQUEST).json({

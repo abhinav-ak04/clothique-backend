@@ -8,6 +8,7 @@ import {
   setDefaultAddress,
   updateAddressDetails,
 } from '../controllers/addressController.js';
+import { isAuthenticated } from '../middlewares/Auth.js';
 
 const router = express.Router();
 
@@ -18,14 +19,14 @@ router.get('/', async (req, res) =>
   })
 );
 
-router.get('/user/:userId', getAllAddresses);
-router.get('/:addressId', getAddressById);
+router.get('/user/:userId', isAuthenticated, getAllAddresses);
+router.get('/:addressId', isAuthenticated, getAddressById);
 
-router.post('/add', addAddress);
+router.post('/add', isAuthenticated, addAddress);
 
-router.patch('/update/:addressId', updateAddressDetails);
-router.patch('/:addressId/set-default', setDefaultAddress);
+router.patch('/update/:addressId', isAuthenticated, updateAddressDetails);
+router.patch('/:addressId/set-default', isAuthenticated, setDefaultAddress);
 
-router.delete('/remove/:addressId', removeAddress);
+router.delete('/remove/:addressId', isAuthenticated, removeAddress);
 
 export default router;
