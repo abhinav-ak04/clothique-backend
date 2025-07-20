@@ -5,7 +5,7 @@ export const getCartItems = async (req, res) => {
   const { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId } = req.params;
+    const userId = req.userId;
 
     if (!userId) {
       return res.status(BAD_REQUEST).json({ message: 'User ID is required' });
@@ -19,14 +19,14 @@ export const getCartItems = async (req, res) => {
         .json({ message: 'Cart is empty', items: [], nbHits: 0 });
     }
 
-    res.status(OK).json({
+    return res.status(OK).json({
       message: 'Cart items retrieved successfully',
       items: cart.items,
       nbHits: cart.items.length,
     });
   } catch (error) {
     console.error('Error retrieving cart items:', error);
-    res
+    return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal server error', error: error.message });
   }
@@ -36,12 +36,13 @@ export const addToCart = async (req, res) => {
   const { CREATED, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId, productId, quantity, size } = req.body;
+    const userId = req.userId;
+    const { productId, quantity, size } = req.body;
 
-    if (!userId || !productId || !quantity || !size) {
-      res.status(BAD_REQUEST).json({
+    if (!productId || !quantity || !size) {
+      return res.status(BAD_REQUEST).json({
         message:
-          'userId, productId, quantity or size is missing. Please provide all required fields in the request body.',
+          'productId, quantity or size is missing. Please provide all required fields in the request body.',
       });
     }
 
@@ -65,12 +66,12 @@ export const addToCart = async (req, res) => {
     await cart.save();
     await cart.populate('items.product');
 
-    res
+    return res
       .status(CREATED)
       .json({ message: 'Item added to cart successfully', cart });
   } catch (error) {
     console.error('Error adding item to the cart:', error);
-    res
+    return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal server error', error: error.message });
   }
@@ -80,12 +81,13 @@ export const removeCartItem = async (req, res) => {
   const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId, productId, size } = req.body;
+    const userId = req.userId;
+    const { productId, size } = req.body;
 
-    if (!userId || !productId || !size) {
+    if (!productId || !size) {
       return res.status(BAD_REQUEST).json({
         message:
-          'userId, productId or size is missing. Please provide all required fields in the request body.',
+          'productId or size is missing. Please provide all required fields in the request body.',
       });
     }
 
@@ -110,14 +112,14 @@ export const removeCartItem = async (req, res) => {
     await cart.save();
     await cart.populate('items.product');
 
-    res.status(OK).json({
+    return res.status(OK).json({
       message: 'Item removed from cart successfully',
       cart,
       nbHits: cart.items.length,
     });
   } catch (error) {
     console.error('Error removing item from the cart:', error);
-    res
+    return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal server error', error: error.message });
   }
@@ -127,14 +129,7 @@ export const clearCart = async (req, res) => {
   const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId } = req.params;
-
-    if (!userId) {
-      return res.status(BAD_REQUEST).json({
-        message:
-          'User ID is required to clear the cart. Please provide a valid User ID in the request parametres.',
-      });
-    }
+    const userId = req.userId;
 
     const cart = await Cart.findOne({ user: userId });
 
@@ -162,12 +157,13 @@ export const updateCartItem = async (req, res) => {
   const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId, productId, currentSize, newSize, newQuantity } = req.body;
+    const userId = req.userId;
+    const { productId, currentSize, newSize, newQuantity } = req.body;
 
-    if (!userId || !productId || !currentSize) {
+    if (!productId || !currentSize) {
       return res.status(BAD_REQUEST).json({
         message:
-          'userId, productId or currentSize is missing. Please provide all required fields in the request body.',
+          'productId or currentSize is missing. Please provide all required fields in the request body.',
       });
     }
 

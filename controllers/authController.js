@@ -55,7 +55,7 @@ export const handleLogin = async (req, res) => {
       .json({ message: 'Login successful', success: true, jwtToken, user });
   } catch (error) {
     console.error('Error logging in:', error);
-    res
+    return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal server error', error: error.message });
   }
@@ -93,12 +93,12 @@ export const handleSignup = async (req, res) => {
     await auth.save();
     await auth.populate('user');
 
-    res
+    return res
       .status(CREATED)
       .json({ message: 'Signup successful', auth, success: true });
   } catch (error) {
     console.error('Error signing up:', error);
-    res.status(INTERNAL_SERVER_ERROR).json({
+    return res.status(INTERNAL_SERVER_ERROR).json({
       message: 'Internal server error',
       error: error.message,
       success: false,
@@ -136,14 +136,14 @@ export const addAuthDoc = async (req, res) => {
     await auth.save();
     await auth.populate('user');
 
-    res.status(CREATED).json({
+    return res.status(CREATED).json({
       message: 'Auth Document added successfully',
       auth,
       success: true,
     });
   } catch (error) {
     console.error('Error adding auth doc:', error);
-    res.status(INTERNAL_SERVER_ERROR).json({
+    return res.status(INTERNAL_SERVER_ERROR).json({
       message: 'Internal server error',
       error: error.message,
       success: false,

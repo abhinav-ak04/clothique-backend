@@ -23,6 +23,7 @@ export const isAuthenticated = (req, res, next) => {
   try {
     const decoded = jwt.verify(auth, process.env.JWT_SECRET);
     req.user = decoded;
+    req.userId = decoded.userId;
     next();
   } catch (error) {
     console.error('JWT verification error:', error);

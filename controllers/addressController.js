@@ -5,7 +5,7 @@ export const getAllAddresses = async (req, res) => {
   const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId } = req.params;
+    const userId = req.userId;
 
     const addresses = await Address.find({ user: userId });
 
@@ -56,8 +56,8 @@ export const addAddress = async (req, res) => {
   const { CREATED, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
+    const userId = req.userId;
     const {
-      userId,
       name,
       mobileNo,
       pincode,
@@ -129,7 +129,7 @@ export const setDefaultAddress = async (req, res) => {
   const { OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId } = req.body;
+    const userId = req.userId;
 
     if (!userId) {
       return res.status(BAD_REQUEST).json({

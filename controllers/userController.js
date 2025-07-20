@@ -5,7 +5,7 @@ export const getUserData = async (req, res) => {
   const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId } = req.params;
+    const userId = req.userId;
 
     const user = await User.findById(userId);
 
@@ -46,13 +46,11 @@ export const isValidUser = async (req, res) => {
       });
     }
 
-    return res
-      .status(OK)
-      .json({
-        message: 'User found for this mobile number',
-        exists: true,
-        user,
-      });
+    return res.status(OK).json({
+      message: 'User found for this mobile number',
+      exists: true,
+      user,
+    });
   } catch (error) {
     console.error('Error verifying mobile number', error);
     res
@@ -65,14 +63,12 @@ export const updateUserData = async (req, res) => {
   const { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } = StatusCodes;
 
   try {
-    const { userId } = req.params;
+    const userId = req.userId;
     const { name, mobileNo, email, gender, dob, location, alternateMobileNo } =
       req.body;
 
     if (!userId) {
-      return res
-        .status(BAD_REQUEST)
-        .json({ message: 'User ID is required in the URL params' });
+      return res.status(BAD_REQUEST).json({ message: 'User ID is required' });
     }
 
     const user = await User.findById(userId);
