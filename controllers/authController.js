@@ -105,3 +105,48 @@ export const handleSignup = async (req, res) => {
     });
   }
 };
+
+export const addAuthDoc = async (req, res) => {
+  const { CREATED, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR } =
+    StatusCodes;
+
+  try {
+    const { userId, password } = req.body;
+
+    if (!userId) {
+      return res.status(BAD_REQUEST).json({
+        message:
+          'userId is missing. Please provide all required fields in the request body.',
+        success: false,
+      });
+    }
+
+    let user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(NOT_FOUND).json({
+        message: 'User not found',
+        success: false,
+      });
+    }
+
+    const auth = new Auth({ user: user._id, password });
+    auth.password = await bcrypt.hash(password, 10);
+
+    await auth.save();
+    await auth.populate('user');
+
+    res.status(CREATED).json({
+      message: 'Auth Document added successfully',
+      auth,
+      success: true,
+    });
+  } catch (error) {
+    console.error('Error adding auth doc:', error);
+    res.status(INTERNAL_SERVER_ERROR).json({
+      message: 'Internal server error',
+      error: error.message,
+      success: false,
+    });
+  }
+};

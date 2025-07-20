@@ -7,12 +7,12 @@ import express from 'express';
 import connectDB from './db/connect.js';
 
 import addressRoutes from './routes/addresses.js';
+import authRoutes from './routes/auth.js';
 import cartRoutes from './routes/carts.js';
 import orderRoutes from './routes/orders.js';
 import productRoutes from './routes/products.js';
 import userRoutes from './routes/users.js';
 import wishlistRoutes from './routes/wishlists.js';
-import authRoutes from './routes/auth.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
