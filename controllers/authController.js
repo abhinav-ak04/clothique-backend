@@ -54,7 +54,7 @@ export const handleLogin = async (req, res) => {
       .status(OK)
       .json({ message: 'Login successful', success: true, jwtToken, user });
   } catch (error) {
-    console.error('Error signing up:', error);
+    console.error('Error logging in:', error);
     res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal server error', error: error.message });
