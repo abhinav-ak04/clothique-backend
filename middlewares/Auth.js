@@ -5,13 +5,13 @@ export const isAuthenticated = (req, res, next) => {
   const { FORBIDDEN } = StatusCodes;
 
   const auth = req.headers['authorization'];
-  console.log(
-    'Authorization header:',
-    req.headers['authorization'],
-    'for',
-    req.method,
-    req.originalUrl
-  );
+  // console.log(
+  //   'Authorization header:',
+  //   req.headers['authorization'],
+  //   'for',
+  //   req.method,
+  //   req.originalUrl
+  // );
 
   if (!auth) {
     return res.status(FORBIDDEN).json({

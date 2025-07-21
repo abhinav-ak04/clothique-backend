@@ -18,7 +18,7 @@ export const getWishlistItems = async (req, res) => {
       'items.product'
     );
 
-    if (!wishlist) {
+    if (!wishlist || wishlist.length === 0) {
       return res
         .status(OK)
         .json({ message: 'Wishlist is empty', items: [], nbHits: 0 });

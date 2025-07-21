@@ -12,10 +12,14 @@ export const getAllOrders = async (req, res) => {
       'products.product'
     );
 
-    if (!orders || orders.length === 0) {
+    if (orders.length === 0) {
       return res
-        .status(NOT_FOUND)
-        .json({ message: 'No orders found for the user' });
+        .status(OK)
+        .json({
+          message: 'No orders found for the user',
+          orders: [],
+          nbHits: 0,
+        });
     }
 
     return res.status(OK).json({

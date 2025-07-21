@@ -102,10 +102,10 @@ export const searchProducts = async (req, res) => {
     }
 
     const products = await Product.find(query).sort(sortQuery);
-    res.status(OK).json({ products, nbHits: products.length });
+    return res.status(OK).json({ products, nbHits: products.length });
   } catch (error) {
     console.error('Error fetching products:', error);
-    res
+    return res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: 'Internal server error', error: error.message });
   }
